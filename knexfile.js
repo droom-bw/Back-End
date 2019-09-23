@@ -1,8 +1,6 @@
-// Update with your config settings.
-
 module.exports = {
   development: {
-    client: "sqlite3",
+    client: "pg",
     connection: {
       filename: "./data/droom.db3"
     },
@@ -14,9 +12,8 @@ module.exports = {
       directory: "./data/seeds"
     }
   },
-
   staging: {
-    client: "postgresql",
+    client: "pg",
     connection: {
       database: "my_db",
       user: "username",
@@ -30,7 +27,6 @@ module.exports = {
       tableName: "knex_migrations"
     }
   },
-
   production: {
     client: "pg",
     connection: process.env.DATABASE_URL,
