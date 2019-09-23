@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const Users = require("../Users/users-model.js");
+const Users = require("../Jobseeker/users-model.js.js");
 
 function generateToken(user) {
   const payload = {
