@@ -4,12 +4,10 @@ module.exports = {
   development: {
     client: "pg",
     connection: {
-      database: "droom",
-      port: 5000,
+      database: "droomdev",
       user: "postgres",
-      password: "docker"
+      password: "password"
     },
-    useNullAsDefault: true,
     migrations: {
       directory: "./data/migrations"
     },
@@ -17,7 +15,7 @@ module.exports = {
       directory: "./data/seeds"
     }
   },
-  staging: {
+  /*   staging: {
     client: "pg",
     connection: {
       database: "my_db",
@@ -31,7 +29,7 @@ module.exports = {
     migrations: {
       tableName: "knex_migrations"
     }
-  },
+  }, */
   production: {
     client: "pg",
     connection: process.env.DATABASE_URL,
