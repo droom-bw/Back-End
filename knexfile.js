@@ -1,21 +1,21 @@
 require("dotenv").config();
 
 module.exports = {
-  // development_ys: {
-  //   client: "pg",
-  //   connection: {
-  //     database: process.env.DB_NAME,
-  //     port: process.env.DB_PORT,
-  //     user: process.env.DB_USERNAME,
-  //     password: process.env.DB_PASSWORD
-  //   },
-  //   migrations: {
-  //     directory: "./data/migrations"
-  //   },
-  //   seeds: {
-  //     directory: "./data/seeds"
-  //   }
-  // },
+  development: {
+    client: "pg",
+    connection: {
+      database: process.env.DB_NAME,
+      port: process.env.DB_PORT,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD
+    },
+    migrations: {
+      directory: "./data/migrations"
+    },
+    seeds: {
+      directory: "./data/seeds"
+    }
+  },
   /*   staging: {
     client: "pg",
     connection: {
