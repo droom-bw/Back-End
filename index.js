@@ -7,6 +7,9 @@ server.use(express.json());
 const seekersRouter = require("./Jobseeker/seekers-router.js");
 server.use("/seekers", seekersRouter);
 
+const companiesRouter = require("./Company/company-router.js");
+server.use("/companies", companiesRouter);
+
 server.get("/", (req, res) => {
   res.status(200).send("Sanity Check");
 });
