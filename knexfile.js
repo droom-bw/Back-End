@@ -5,7 +5,7 @@ module.exports = {
     client: "pg",
     connection: {
       database: "droom",
-      port: 8765,
+      port: 5000,
       user: "postgres",
       password: "docker"
     },
