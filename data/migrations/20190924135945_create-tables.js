@@ -60,7 +60,7 @@ exports.up = function(knex) {
           .inTable("jobs")
           .onUpdate("CASCADE")
           .onDelete("CASCADE");
-        tbl.unique(["seeker_id", "job_id"], "matches");
+        tbl.unique(["seeker_id", "job_id"], "job_matches");
       })
   );
 };
