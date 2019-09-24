@@ -4,9 +4,10 @@ module.exports = {
   development: {
     client: "pg",
     connection: {
-      database: "droomdev",
-      user: "postgres",
-      password: "password"
+      database: process.env.DB_NAME,
+      port: process.env.DB_PORT,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD
     },
     migrations: {
       directory: "./data/migrations"
