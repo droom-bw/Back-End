@@ -1,8 +1,13 @@
+require("dotenv").config();
+
 module.exports = {
   development: {
     client: "pg",
     connection: {
-      filename: "./data/droom.db3"
+      database: "droom",
+      port: 8765,
+      user: "postgres",
+      password: "docker"
     },
     useNullAsDefault: true,
     migrations: {
