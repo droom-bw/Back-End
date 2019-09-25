@@ -3,6 +3,7 @@ const Seekers = require("./seekers-model.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = require("../secret/secret.js");
+const mid = require("../middleware/middleware.js");
 
 function generateToken(seeker) {
   const payload = {
@@ -14,15 +15,6 @@ function generateToken(seeker) {
   };
   return jwt.sign(payload, secret, options);
 }
-
-router.get("/", (req, res) => {
-  Seekers.find()
-    .then(seekers => res.status(200).json(seekers))
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ message: "Error retrieving seekers" });
-    });
-});
 
 router.post("/register", (req, res) => {
   const { name, email, password, location, resume } = req.body;
@@ -61,6 +53,15 @@ router.post("/login", (req, res) => {
     .catch(err => {
       console.log(err);
       res.status(500).json({ message: "Error logging in user" });
+    });
+});
+
+router.get("/", mid.restrict, (req, res) => {
+  Seekers.find()
+    .then(seekers => res.status(200).json(seekers))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "Error retrieving seekers" });
     });
 });
 
