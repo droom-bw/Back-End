@@ -62,4 +62,39 @@ app.get("/", mid.restrict, (req, res) => {
   }
 });
 
+app.get("/:id", mid.restrict, mid.validateIdCompany, (req, res) => {
+  res.status(200).json(req.company);
+});
+
+app.delete("/:id", mid.restrict, mid.validateIdCompany, (req, res) => {
+  try {
+    const { id } = req.company;
+    Companies.remove(id).then(() => {
+      res.status(204).end();
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Error deleting company" });
+  }
+});
+
+app.put("/:id", mid.restrict, mid.validateIdCompany, (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, password } = req.body;
+    Companies.update(id, {
+      name,
+      email,
+      password: bcrypt.hashSync(password, 8)
+    }).then(() => {
+      Companies.findById(id)
+        .then(response => res.status(200).json(response))
+        .catch(err => {
+          res.status(500).json({ error: "Error getting company" });
+        });
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Error updating" });
+  }
+});
+
 module.exports = app;
