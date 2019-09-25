@@ -1,8 +1,9 @@
 const Seekers = require("../Jobseeker/seekers-model.js");
+const Companies = require("../Company/company-model");
 const jwt = require("jsonwebtoken");
 const secret = require("../secret/secret.js");
 
-module.exports = { validateId, restrict };
+module.exports = { validateId, validateIdCompany, restrict };
 
 function validateId(req, res, next) {
   const { id } = req.params;
@@ -12,6 +13,18 @@ function validateId(req, res, next) {
       next();
     } else {
       res.status(404).json({ error: "invalid job seeker id" });
+    }
+  });
+}
+
+function validateIdCompany(req, res, next) {
+  const { id } = req.params;
+  Companies.findById(id).then(response => {
+    if (response) {
+      req.company = response;
+      next();
+    } else {
+      res.status(404).json({ error: "invalid company id" });
     }
   });
 }
