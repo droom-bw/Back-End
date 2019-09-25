@@ -65,4 +65,44 @@ router.get("/", mid.restrict, (req, res) => {
     });
 });
 
+router.get("/:id", mid.restrict, mid.validateId, (req, res) => {
+  res.status(200).json(req.seeker);
+});
+
+router.delete("/:id", mid.restrict, mid.validateId, (req, res) => {
+  const { id } = req.seeker;
+  Seekers.remove(id)
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: "Error deleting job seeker" });
+    });
+});
+
+router.put("/:id", mid.restrict, mid.validateId, (req, res) => {
+  const { id } = req.params;
+  const { name, email, password, location, resume } = req.body;
+  Seekers.update(id, {
+    name,
+    email,
+    password: bcrypt.hashSync(password, 8),
+    location,
+    resume
+  })
+    .then(() => {
+      Seekers.findById(id)
+        .then(seeker => res.status(200).json(seeker))
+        .catch(err => {
+          console.log(err);
+          res.status(500).json({ error: "Error getting seeker" });
+        });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: "Error updating" });
+    });
+});
+
 module.exports = router;
