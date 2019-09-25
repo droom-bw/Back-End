@@ -28,7 +28,7 @@ function findById(id) {
 }
 
 function find() {
-  return db("seekers").select("name", "email", "location", "resume");
+  return db("seekers").select("id", "name", "email", "location", "resume");
 }
 
 function remove(id) {

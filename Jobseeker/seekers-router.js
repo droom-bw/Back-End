@@ -44,7 +44,8 @@ router.post("/login", (req, res) => {
         const token = generateToken(seeker);
         res.status(200).json({
           message: "You have logged in",
-          token
+          token,
+          seeker
         });
       } else {
         res.status(401).json({ message: "Invalid password" });
