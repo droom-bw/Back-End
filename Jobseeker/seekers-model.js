@@ -36,5 +36,5 @@ function remove(id) {
 }
 
 function update(id, changes) {
-  return findBy({ id }).update({ changes });
+  return findBy({ id }).update(changes);
 }
