@@ -4,7 +4,9 @@ module.exports = {
   insert,
   findById,
   find,
-  findByEmail
+  findByEmail,
+  remove,
+  update
 };
 
 function insert(seeker) {
@@ -27,4 +29,12 @@ function findById(id) {
 
 function find() {
   return db("seekers").select("name", "email", "location", "resume");
+}
+
+function remove(id) {
+  return findBy({ id }).del();
+}
+
+function update(id, changes) {
+  return findBy({ id }).update(changes);
 }
