@@ -66,6 +66,15 @@ router.get("/all", mid.restrict, (req, res) => {
     });
 });
 
+router.get("/matches", (req, res) => {
+  Seekers.displayMatchesTable()
+    .then(matches => res.status(200).json(matches))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ err: "cannot get matches table" });
+    });
+});
+
 router.get("/seekerID/:id", mid.restrict, mid.validateId, (req, res) => {
   const { id } = req.seeker;
   Seekers.findById(id)
@@ -117,12 +126,27 @@ router.get(
   mid.restrict,
   mid.validateId,
   (req, res) => {
-    const { id } = req.seeker;
+    const { id } = req.params;
     Seekers.findJobsById(id)
       .then(matches => res.status(200).json(matches))
       .catch(err => {
         console.log(err);
         res.status(500).json({ message: "Error retrieving matches" });
+      });
+  }
+);
+
+router.post(
+  "/seekerID/:id/:job_id",
+  mid.restrict,
+  mid.validateId,
+  (req, res) => {
+    const { id, job_id } = req.params;
+    Seekers.insertMatches({ seeker_id: id, job_id: job_id })
+      .then(matches => res.status(201).json(matches))
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ error: "cannot post matches" });
       });
   }
 );
