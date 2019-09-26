@@ -22,6 +22,7 @@ function validateId(req, res, next) {
 }
 
 function validateIdCompany(req, res, next) {
+  console.log("Hello from validate middleware");
   const { id } = req.params;
   Companies.findById(id).then(response => {
     if (response) {
