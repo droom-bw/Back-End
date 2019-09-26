@@ -37,7 +37,6 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  console.log("sign in");
   const { email, password } = req.body;
   Seekers.findByEmail(email)
     .then(seeker => {
@@ -59,7 +58,6 @@ router.post("/login", (req, res) => {
 });
 
 router.get("/all", mid.restrict, (req, res) => {
-  console.log("all");
   Seekers.find()
     .then(seekers => res.status(200).json(seekers))
     .catch(err => {
@@ -68,8 +66,7 @@ router.get("/all", mid.restrict, (req, res) => {
     });
 });
 
-router.get("/matches", (req, res) => {
-  console.log("hello");
+router.get("/matches", mid.restrict, (req, res) => {
   Seekers.findMatches()
     .then(matches => res.status(200).json(matches))
     .catch(err => {

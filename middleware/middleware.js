@@ -5,7 +5,6 @@ const secret = require("../secret/secret.js");
 module.exports = { validateId, restrict };
 
 function validateId(req, res, next) {
-  console.log("validateID");
   const { id } = req.params;
   Seekers.findById(id).then(seeker => {
     if (seeker) {
