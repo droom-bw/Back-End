@@ -7,7 +7,7 @@ module.exports = {
   findByEmail,
   remove,
   update,
-  findMatches
+  findJobsById
 };
 
 function insert(seeker) {
@@ -25,7 +25,12 @@ function findByEmail(email) {
 }
 
 function findById(id) {
-  return findBy({ id }).first();
+  const seekerQuery = findBy({ id }).first();
+
+  return Promise.all([seekerQuery, findJobsById(id)]).then(([seeker, jobs]) => {
+    seeker.jobs = jobs;
+    return seeker;
+  });
 }
 
 function find() {
@@ -40,6 +45,16 @@ function update(id, changes) {
   return findBy({ id }).update(changes);
 }
 
-function findMatches() {
-  return db("matches");
+function findJobsById(id) {
+  return db("matches AS m")
+    .select(
+      "m.job_id",
+      "c.name as company_name",
+      "j.title",
+      "j.description",
+      "j.salary"
+    )
+    .join("jobs as j", "j.id", "m.id")
+    .join("companies as c", "c.id", "j.company_id")
+    .where({ "m.seeker_id": id });
 }

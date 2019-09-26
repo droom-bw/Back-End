@@ -6,7 +6,8 @@ exports.seed = function(knex, Promise) {
         {
           seeker_id: 1,
           job_id: 1
-        }
+        },
+        { seeker_id: 1, job_id: 2 }
       ])
     );
 };

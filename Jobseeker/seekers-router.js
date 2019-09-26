@@ -66,17 +66,7 @@ router.get("/all", mid.restrict, (req, res) => {
     });
 });
 
-router.get("/matches", mid.restrict, (req, res) => {
-  Seekers.findMatches()
-    .then(matches => res.status(200).json(matches))
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({ message: "Error retrieving matches" });
-    });
-});
-
 router.get("/seekerID/:id", mid.restrict, mid.validateId, (req, res) => {
-  console.log("id");
   res.status(200).json(req.seeker);
 });
 
@@ -115,5 +105,20 @@ router.put("/seekerID/:id", mid.restrict, mid.validateId, (req, res) => {
       res.status(500).json({ error: "Error updating" });
     });
 });
+
+router.get(
+  "/seekerID/:id/matches",
+  mid.restrict,
+  mid.validateId,
+  (req, res) => {
+    const { id } = req.seeker;
+    Seekers.findJobsById(id)
+      .then(matches => res.status(200).json(matches))
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ message: "Error retrieving matches" });
+      });
+  }
+);
 
 module.exports = router;
