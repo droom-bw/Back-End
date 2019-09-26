@@ -2,11 +2,13 @@ const db = require("../data/dbConfig.js");
 
 module.exports = {
   insert,
-  findById,
   find,
+  findById,
+  findBy,
   findByEmail,
   remove,
-  update
+  update,
+  findJobsById
 };
 
 function insert(seeker) {
@@ -24,7 +26,13 @@ function findByEmail(email) {
 }
 
 function findById(id) {
-  return findBy({ id }).first();
+  const seekerQuery = findBy({ id }).first();
+
+  return Promise.all([seekerQuery, findJobsById(id)]).then(([seeker, jobs]) => {
+    seeker.jobs = jobs;
+    // console.log("s", seeker);
+    return seeker;
+  });
 }
 
 function find() {
@@ -37,4 +45,18 @@ function remove(id) {
 
 function update(id, changes) {
   return findBy({ id }).update(changes);
+}
+
+function findJobsById(id) {
+  return db("matches AS m")
+    .select(
+      "m.job_id",
+      "c.name as company_name",
+      "j.title",
+      "j.description",
+      "j.salary"
+    )
+    .join("jobs as j", "j.id", "m.id")
+    .join("companies as c", "c.id", "j.company_id")
+    .where({ "m.seeker_id": id });
 }
