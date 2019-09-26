@@ -6,7 +6,10 @@ module.exports = {
   find,
   remove,
   update,
-  findJobs
+  findJobs,
+  findJobsBy,
+  findJobsByCompany,
+  insertJob
 };
 
 function insert(company) {
@@ -36,6 +39,35 @@ function findBy(where) {
 }
 
 //! = = = = = = = = = =
+function jobsFindBy(where) {
+  return db("jobs").where(where);
+}
+
 function findJobs() {
   return db("jobs");
+}
+
+function findJobsBy(id) {
+  return jobsFindBy({ id }).first();
+}
+
+function findJobsByCompany(id) {
+  return findById(id)
+    .first()
+    .then(response => {
+      const company_id = response.id;
+      return findJobsBy(company_id);
+    });
+}
+
+//! - - - - - - - - -
+
+function insertJob(job) {
+  return db("jobs")
+    .insert(job, "id")
+    .then(([id]) => findById(id));
+}
+
+function findById(id) {
+  return findJobsBy({ id }).first();
 }
