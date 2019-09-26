@@ -4,23 +4,15 @@ module.exports = {
   insert,
   findById,
   find,
-  findByEmail,
   remove,
-  update
+  update,
+  findJobs
 };
 
 function insert(company) {
   return db("companies")
     .insert(company, "id")
     .then(([id]) => findById(id));
-}
-
-function findBy(where) {
-  return db("companies").where(where);
-}
-
-function findByEmail(email) {
-  return findBy({ email }).first();
 }
 
 function findById(id) {
@@ -37,4 +29,13 @@ function remove(id) {
 
 function update(id, changes) {
   return findBy({ id }).update(changes);
+}
+
+function findBy(where) {
+  return db("companies").where(where);
+}
+
+//! = = = = = = = = = =
+function findJobs() {
+  return db("jobs");
 }
