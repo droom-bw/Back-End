@@ -6,7 +6,8 @@ module.exports = {
   find,
   findByEmail,
   remove,
-  update
+  update,
+  findMatches
 };
 
 function insert(seeker) {
@@ -37,4 +38,8 @@ function remove(id) {
 
 function update(id, changes) {
   return findBy({ id }).update(changes);
+}
+
+function findMatches() {
+  return db("matches");
 }

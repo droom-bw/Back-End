@@ -37,6 +37,7 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
+  console.log("sign in");
   const { email, password } = req.body;
   Seekers.findByEmail(email)
     .then(seeker => {
@@ -57,7 +58,8 @@ router.post("/login", (req, res) => {
     });
 });
 
-router.get("/", mid.restrict, (req, res) => {
+router.get("/all", mid.restrict, (req, res) => {
+  console.log("all");
   Seekers.find()
     .then(seekers => res.status(200).json(seekers))
     .catch(err => {
@@ -66,11 +68,22 @@ router.get("/", mid.restrict, (req, res) => {
     });
 });
 
-router.get("/:id", mid.restrict, mid.validateId, (req, res) => {
+router.get("/matches", (req, res) => {
+  console.log("hello");
+  Seekers.findMatches()
+    .then(matches => res.status(200).json(matches))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "Error retrieving matches" });
+    });
+});
+
+router.get("/seekerID/:id", mid.restrict, mid.validateId, (req, res) => {
+  console.log("id");
   res.status(200).json(req.seeker);
 });
 
-router.delete("/:id", mid.restrict, mid.validateId, (req, res) => {
+router.delete("/seekerID/:id", mid.restrict, mid.validateId, (req, res) => {
   const { id } = req.seeker;
   Seekers.remove(id)
     .then(() => {
@@ -82,7 +95,7 @@ router.delete("/:id", mid.restrict, mid.validateId, (req, res) => {
     });
 });
 
-router.put("/:id", mid.restrict, mid.validateId, (req, res) => {
+router.put("/seekerID/:id", mid.restrict, mid.validateId, (req, res) => {
   const { id } = req.params;
   const { name, email, password, location, resume } = req.body;
   Seekers.update(id, {
