@@ -30,7 +30,7 @@ function findById(id) {
 
   return Promise.all([seekerQuery, findJobsById(id)]).then(([seeker, jobs]) => {
     seeker.jobs = jobs;
-    console.log("s", seeker);
+    // console.log("s", seeker);
     return seeker;
   });
 }

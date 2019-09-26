@@ -10,7 +10,7 @@ function validateId(req, res, next) {
   Seekers.findBy({ id })
     .first()
     .then(seeker => {
-      console.log("middlewre_seeker", seeker);
+      // console.log("middlewre_seeker", seeker);
       if (seeker) {
         req.seeker = seeker;
         next();
