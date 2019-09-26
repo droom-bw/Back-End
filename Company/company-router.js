@@ -97,4 +97,16 @@ app.put("/:id", mid.restrict, mid.validateIdCompany, (req, res) => {
   }
 });
 
+//! = = = = = = = = = =
+app.get("/jobs", (req, res) => {
+  Companies.findJobs()
+    .then(response => {
+      console.log(response);
+      res.status(200).json(response);
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
+});
+
 module.exports = app;
