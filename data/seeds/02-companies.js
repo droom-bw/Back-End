@@ -8,6 +8,12 @@ exports.seed = function(knex, Promise) {
           email: "company1@email.com",
           password:
             "$2a$08$LvkWiJSMRJ412qyniAMwieLY5uvu7NQ8.Fjk9w5jl3ZYrquJLQODa"
+        },
+        {
+          name: "facebook",
+          email: "facebook@email.com",
+          password:
+            "$2a$08$LvkWiJSMRJ412qyniAMwieLY5uvu7NQ8.Fjk9w5jl3ZYrquJLQODa"
         }
       ])
     );

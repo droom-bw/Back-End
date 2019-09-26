@@ -57,7 +57,7 @@ router.post("/login", (req, res) => {
     });
 });
 
-router.get("/", mid.restrict, (req, res) => {
+router.get("/all", mid.restrict, (req, res) => {
   Seekers.find()
     .then(seekers => res.status(200).json(seekers))
     .catch(err => {
@@ -66,11 +66,17 @@ router.get("/", mid.restrict, (req, res) => {
     });
 });
 
-router.get("/:id", mid.restrict, mid.validateId, (req, res) => {
-  res.status(200).json(req.seeker);
+router.get("/seekerID/:id", mid.restrict, mid.validateId, (req, res) => {
+  const { id } = req.seeker;
+  Seekers.findById(id)
+    .then(seeker => res.status(200).json(seeker))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "Error retrieving user" });
+    });
 });
 
-router.delete("/:id", mid.restrict, mid.validateId, (req, res) => {
+router.delete("/seekerID/:id", mid.restrict, mid.validateId, (req, res) => {
   const { id } = req.seeker;
   Seekers.remove(id)
     .then(() => {
@@ -82,7 +88,7 @@ router.delete("/:id", mid.restrict, mid.validateId, (req, res) => {
     });
 });
 
-router.put("/:id", mid.restrict, mid.validateId, (req, res) => {
+router.put("/seekerID/:id", mid.restrict, mid.validateId, (req, res) => {
   const { id } = req.params;
   const { name, email, password, location, resume } = req.body;
   Seekers.update(id, {
@@ -105,5 +111,20 @@ router.put("/:id", mid.restrict, mid.validateId, (req, res) => {
       res.status(500).json({ error: "Error updating" });
     });
 });
+
+router.get(
+  "/seekerID/:id/matches",
+  mid.restrict,
+  mid.validateId,
+  (req, res) => {
+    const { id } = req.seeker;
+    Seekers.findJobsById(id)
+      .then(matches => res.status(200).json(matches))
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ message: "Error retrieving matches" });
+      });
+  }
+);
 
 module.exports = router;

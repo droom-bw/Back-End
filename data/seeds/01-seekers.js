@@ -10,6 +10,14 @@ exports.seed = function(knex, Promise) {
             "$2a$08$LvkWiJSMRJ412qyniAMwieLY5uvu7NQ8.Fjk9w5jl3ZYrquJLQODa",
           location: "island",
           resume: "web21"
+        },
+        {
+          name: "test",
+          email: "test@email.com",
+          password:
+            "$2a$08$LvkWiJSMRJ412qyniAMwieLY5uvu7NQ8.Fjk9w5jl3ZYrquJLQODa",
+          location: "nanaimo",
+          resume: "web21"
         }
       ])
     );
