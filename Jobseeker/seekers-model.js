@@ -8,7 +8,10 @@ module.exports = {
   findByEmail,
   remove,
   update,
-  findJobsById
+  findJobsById,
+  insertMatches,
+  removeMatches,
+  displayMatchesTable
 };
 
 function insert(seeker) {
@@ -48,6 +51,7 @@ function update(id, changes) {
 }
 
 function findJobsById(id) {
+  console.log("id", id);
   return db("matches AS m")
     .select(
       "m.job_id",
@@ -56,7 +60,22 @@ function findJobsById(id) {
       "j.description",
       "j.salary"
     )
-    .join("jobs as j", "j.id", "m.id")
+    .join("jobs as j", "j.id", "m.job_id")
     .join("companies as c", "c.id", "j.company_id")
     .where({ "m.seeker_id": id });
+}
+
+function insertMatches(jobMatches) {
+  return db("matches")
+    .insert(jobMatches, "id")
+    .then(([id]) => db("matches").where({ id }));
+}
+
+function removeMatches(id) {
+  return db("matches")
+    .where({ id })
+    .del();
+}
+function displayMatchesTable() {
+  return db("matches");
 }
