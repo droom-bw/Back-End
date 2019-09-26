@@ -67,7 +67,13 @@ router.get("/all", mid.restrict, (req, res) => {
 });
 
 router.get("/seekerID/:id", mid.restrict, mid.validateId, (req, res) => {
-  res.status(200).json(req.seeker);
+  const { id } = req.seeker;
+  Seekers.findById(id)
+    .then(seeker => res.status(200).json(seeker))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ message: "Error retrieving user" });
+    });
 });
 
 router.delete("/seekerID/:id", mid.restrict, mid.validateId, (req, res) => {

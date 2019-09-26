@@ -2,8 +2,9 @@ const db = require("../data/dbConfig.js");
 
 module.exports = {
   insert,
-  findById,
   find,
+  findById,
+  findBy,
   findByEmail,
   remove,
   update,
@@ -29,6 +30,7 @@ function findById(id) {
 
   return Promise.all([seekerQuery, findJobsById(id)]).then(([seeker, jobs]) => {
     seeker.jobs = jobs;
+    console.log("s", seeker);
     return seeker;
   });
 }
